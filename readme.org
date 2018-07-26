@@ -53,6 +53,7 @@ C-c } - Show Grid
 C-c C-c - recalculate value (point over formula)
 :END:
 
+
 | Name    | Age |
 |---------+-----|
 | Julian  |  30 |
@@ -61,16 +62,6 @@ C-c C-c - recalculate value (point over formula)
 |---------+-----|
 | Total   | 106 |
 #+TBLFM: @5$2=vsum(@2..@>>)
-
-*** Plotting (using gnuplot)
-#+PLOT: title:"Citas" Ind:1 deps:(3) type:2d with:histograms set:"yrange [0:]"
-| Sede      | Max cites | H-index |
-|-----------+-----------+---------|
-| Chile     |    257.72 |   21.39 |
-| Leeds     |    165.77 |   19.68 |
-| Sao Paolo |     71.00 |   11.50 |
-| Stockholm |    134.19 |   14.33 |
-| Morelia   |    257.56 |   17.67 |
 
 *** Tags
     Words enclosed between : : on a headline are tags for that headline. For example, I have tagged 'Todos' and 'Checkboxes' with 'task_management'. 
@@ -163,7 +154,7 @@ The above block could be parsed in any babel-supported language, fed to any babe
 **** ob-sql-mode
 **** ob-browser - render html as images inline
 **** gnuplot (from above) can be used as a language instead, allowing insertable results
-#+begin_src gnuplot :exports code :file file.png
+#+begin_src gnuplot :exports code :file org-images/gnuplot.png
 reset
 
 set title "Putting it All Together"
@@ -185,18 +176,63 @@ plot f(x) w lp lw 1, g(x) w p lw 2, h(x) w l lw 3
 #+end_src
 
 #+RESULTS:
-[[file:file.png]]
+[[file:org-images/gnuplot.png]]
+
 **** artist mode - can be used if the src is meant to be ASCII for notetaking purposes
 #+BEGIN_SRC artist
 
-#+END_SRC
+ #+END_SRC
 
 this doesnt need to be evaulated, ANY language is support re: display and 'mode' interactions
 **** plantuml mode - allows the creation of diagrams. the end result is both a nice visual representation and the ability to keep the document in question text-based.
-#+begin_src plantuml :file tryout.png
+***** Sequence Diagrams
+#+BEGIN_SRC plantuml :file org-images/puml1.png
   Alice -> Bob: synchronous call
   Alice ->> Bob: asynchronous call
-#+end_src
+#+END_SRC
 
 #+RESULTS:
-[[file:tryout.png]]
+[[file:org-images/puml1.png]]
+
+***** Activity Diagrams
+
+#+BEGIN_SRC plantuml :file org-images/puml2.png
+:Up first, do this;
+:Then this;
+#+END_SRC
+
+#+RESULTS:
+[[file:org-images/puml2.png]]
+
+***** Activity with Conditional
+#+BEGIN_SRC plantuml :file org-images/puml3.png
+start
+
+if (GraphViz installed?) then (yes)
+ :process all\ndiagrams;
+else (no)
+:process only
+  __sequence___and___activity___diagrams;
+endif
+
+stop
+#+END_SRC
+
+#+RESULTS:
+[[file:org-images/puml3.png]]
+
+**** ditaa
+
+#+BEGIN_SRC ditaa :file org-images/ditaa.png
+
+    +---------+            +-------------+
+    |         |            |             |
+    |  one    | -------->  |  two        |
+    |         |            |             |
+    +---------+            +-------------+
+
+
+#+END_SRC
+
+#+RESULTS:
+[[file:org-images/ditaa.png]]
