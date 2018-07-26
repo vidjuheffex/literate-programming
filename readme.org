@@ -2,7 +2,7 @@
 #+AUTHOR: Julian Herrera
 #+EMAIL: julian.herrera@live.com
 #+HTML_HEAD: <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
-#+EXPORT_FILE_NAME: docs/index.html
+#+EXPORT_FILE_NAME: index.html
 
 
 * Table of Contents                                                     :TOC:noexport:
