@@ -1,0 +1,670 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2018-07-25 Wed 22:35 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Org-Mode, Babel and Literate Programming</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Julian Herrera" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2018 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Org-Mode, Babel and Literate Programming</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org44c98ba">1. Org-Mode</a>
+<ul>
+<li><a href="#org53e2f02">1.1. What is org?</a></li>
+<li><a href="#orgeaa98e6">1.2. As a markup language.</a></li>
+<li><a href="#org43db260">1.3. And beyond</a>
+<ul>
+<li><a href="#org2f0dbc9">1.3.1. Todos&#xa0;&#xa0;&#xa0;<span class="tag"><span class="task_management">task_management</span></span></a></li>
+<li><a href="#org2c1137b">1.3.2. Checkboxes</a></li>
+<li><a href="#org8996395">1.3.3. Tables</a></li>
+<li><a href="#orgd02f586">1.3.4. Spreadsheets</a></li>
+<li><a href="#orgfbe7301">1.3.5. Tags</a></li>
+<li><a href="#orgc5ccb2e">1.3.6. Clock and time</a></li>
+</ul>
+</li>
+<li><a href="#org54e0e52">1.4. Navigating and narrowing Org files</a></li>
+<li><a href="#org4420d82">1.5. Why?</a></li>
+</ul>
+</li>
+<li><a href="#org36d6b38">2. Org-Babel</a>
+<ul>
+<li><a href="#orgb91ca16">2.1. What is org-babel?</a></li>
+</ul>
+</li>
+<li><a href="#org0742ac8">3. Literate Programming</a>
+<ul>
+<li><a href="#orgec20ea2">3.1. What is literate programming?</a></li>
+<li><a href="#org7d633eb">3.2. Literate README's</a>
+<ul>
+<li><a href="#orgf8c3c79">3.2.1. Languages of interest</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org44c98ba" class="outline-2">
+<h2 id="org44c98ba"><span class="section-number-2">1</span> Org-Mode</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-org53e2f02" class="outline-3">
+<h3 id="org53e2f02"><span class="section-number-3">1.1</span> What is org?</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Org aims to organize you. Your notes, your tasks, your planning, all is handled best in Org.
+</p>
+
+<p>
+Org often gets confused with a markup langauage. In reality it is a (major) 'mode'. To those unfamiliar with Emacs a 'mode' defines the interaction aspects of a buffer. Every buffer has a single major mode and then as many minor-modes as the user desires. For example, to edit Web files Web-Mode can be used as the major mode (this would give you syntax highlighting, auto-completion support, etc), if Emmet support is also wanted, Emmet-mode (a minor mode) could then be turned on as well.
+</p>
+
+<p>
+While many online services like github bitbucket are supporting '.org' files and displaying them correctly, this is only half the picture, the other part is the interaction environment itself. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgeaa98e6" class="outline-3">
+<h3 id="orgeaa98e6"><span class="section-number-3">1.2</span> As a markup language.</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+Org has everything markdown has to offer such as:
+</p>
+<ul class="org-ul">
+<li>Unordered lists (such as this one)</li>
+<li>Ordered lists</li>
+<li>Headlines</li>
+<li>Links</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org43db260" class="outline-3">
+<h3 id="org43db260"><span class="section-number-3">1.3</span> And beyond</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+Org offers the concept of Todo's
+</p>
+</div>
+
+<div id="outline-container-org2f0dbc9" class="outline-4">
+<h4 id="org2f0dbc9"><span class="section-number-4">1.3.1</span> Todos&#xa0;&#xa0;&#xa0;<span class="tag"><span class="task_management">task_management</span></span></h4>
+<div class="outline-text-4" id="text-1-3-1">
+</div>
+<ol class="org-ol">
+<li><a id="orgcf33d25"></a><span class="done DONE">DONE</span> Any headline can be turned into a todo action item<br /></li>
+<li><a id="orgbc95446"></a><span class="todo TODO">TODO</span> And its status can be changed with Shift + Left or Right Arrow<br /></li>
+</ol>
+</div>
+
+<div id="outline-container-org2c1137b" class="outline-4">
+<h4 id="org2c1137b"><span class="section-number-4">1.3.2</span> Checkboxes</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<ul class="org-ul">
+<li class="off"><code>[&#xa0;]</code> any item in a plain list can be turn into a checkbox</li>
+<li class="off"><code>[&#xa0;]</code> these can be interacted with using C-c C-c</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8996395" class="outline-4">
+<h4 id="org8996395"><span class="section-number-4">1.3.3</span> Tables</h4>
+<div class="outline-text-4" id="text-1-3-3">
+<p>
+So these aren't impossible to create in Markdown, but the auto-formatting and spreadsheet capabilities are next-level. Simply type '|'between columns and hit &lt;TAB&gt; upon row completetion. Let's look at these as spreadsheets:
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd02f586" class="outline-4">
+<h4 id="orgd02f586"><span class="section-number-4">1.3.4</span> Spreadsheets</h4>
+<div class="outline-text-4" id="text-1-3-4">
+<p>
+C-c ? - Show coordinates
+C-c } - Show Grid
+C-c C-c - recalculate value (point over formula)
+</p>
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Name</th>
+<th scope="col" class="org-right">Age</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Julian</td>
+<td class="org-right">30</td>
+</tr>
+
+<tr>
+<td class="org-left">Paul</td>
+<td class="org-right">34</td>
+</tr>
+
+<tr>
+<td class="org-left">Charles</td>
+<td class="org-right">42</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">Total</td>
+<td class="org-right">106</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgfbe7301" class="outline-4">
+<h4 id="orgfbe7301"><span class="section-number-4">1.3.5</span> Tags</h4>
+<div class="outline-text-4" id="text-1-3-5">
+<p>
+Words enclosed between : : on a headline are tags for that headline. For example, I have tagged 'Todos' and 'Checkboxes' with 'task<sub>management</sub>'. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc5ccb2e" class="outline-4">
+<h4 id="orgc5ccb2e"><span class="section-number-4">1.3.6</span> Clock and time</h4>
+<div class="outline-text-4" id="text-1-3-6">
+<p>
+Org supports time stamping anywhere with C-c . <span class="timestamp-wrapper"><span class="timestamp">&lt;2018-07-20 Fri&gt; </span></span> 
+</p>
+</div>
+
+<ol class="org-ol">
+<li><a id="org007d57c"></a>I can hit C-c C-x C-i on it to start and then C-c C-x C-o to stop a clock on any item. Time will get logged to the logbook drawer.<br />
+<div class="outline-text-5" id="text-1-3-6-1">
+</div>
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org54e0e52" class="outline-3">
+<h3 id="org54e0e52"><span class="section-number-3">1.4</span> Navigating and narrowing Org files</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+Tab folds and unfolds content. C-M variants of emacs navigation commands work across headline items.
+</p>
+
+<p>
+Sparse trees can be generated to narrow down to the information you need using C-c /.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4420d82" class="outline-3">
+<h3 id="org4420d82"><span class="section-number-3">1.5</span> Why?</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+Lastly, let's discuss why you might want to use this for notes.
+Project planning gets to remain in a plain-text format while providing the interactivity that other software uses as far an engaging with it.
+Why does plain text matter? <b>Version control.</b> Plain and simple. Project planning evolves as much as code does yet documents that are commonly 'google drive' docs/sheets don't hold their history in the same way, don't get commit logs and versioning is often hand-documented.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org36d6b38" class="outline-2">
+<h2 id="org36d6b38"><span class="section-number-2">2</span> Org-Babel</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-orgb91ca16" class="outline-3">
+<h3 id="orgb91ca16"><span class="section-number-3">2.1</span> What is org-babel?</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Org babel allows the inclusion of source code blocks in your org file. This isn't that same as enclosing code between 3 backticks as in Markdown, that merely displays code properly. Babel blocks are more like portals to other 'major-modes' that house actionable code.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-js"><span style="color: #0000FF;">function</span> <span style="color: #006699;">factorial</span> <span style="color: #707183;">(</span><span style="color: #BA36A5;">n</span><span style="color: #707183;">)</span> <span style="color: #707183;">{</span>
+  <span style="color: #0000FF;">function</span> <span style="color: #006699;">fact</span><span style="color: #7388D6;">(</span><span style="color: #BA36A5;">n</span>, <span style="color: #BA36A5;">acc</span><span style="color: #7388D6;">)</span> <span style="color: #7388D6;">{</span>
+    <span style="color: #0000FF;">if</span> <span style="color: #909183;">(</span>n &lt; 2<span style="color: #909183;">)</span> <span style="color: #909183;">{</span>
+      <span style="color: #0000FF;">return</span> acc;
+    <span style="color: #909183;">}</span> <span style="color: #0000FF;">else</span> <span style="color: #909183;">{</span>
+      <span style="color: #0000FF;">return</span> fact<span style="color: #709870;">(</span>n-1, n * acc<span style="color: #709870;">)</span>;
+    <span style="color: #909183;">}</span>
+  <span style="color: #7388D6;">}</span>
+
+  <span style="color: #0000FF;">return</span> fact<span style="color: #7388D6;">(</span>n, 1<span style="color: #7388D6;">)</span>
+<span style="color: #707183;">}</span>
+
+console.log<span style="color: #707183;">(</span>factorial<span style="color: #7388D6;">(</span>5<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+</pre>
+</div>
+
+<p>
+pressing C-c C-c in the above block actually runs and evaluates that code
+</p>
+
+<p>
+'tangling' allows the blocks to be exported together. 'exporting' allows single blocks to dictate where they live (generated by org). variables can be used in each block and across block. And results from one block can be passed to one another.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0742ac8" class="outline-2">
+<h2 id="org0742ac8"><span class="section-number-2">3</span> Literate Programming</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Furthur discussing org-babel is better suited with context.
+</p>
+</div>
+
+<div id="outline-container-orgec20ea2" class="outline-3">
+<h3 id="orgec20ea2"><span class="section-number-3">3.1</span> What is literate programming?</h3>
+<div class="outline-text-3" id="text-3-1">
+<blockquote>
+<p>
+Literate programming is a programming paradigm introduced by Donald Knuth in which a program is given as an explanation of the program logic in a natural language, such as English, interspersed with snippets of macros and traditional source code, from which a compilable source code can be generated.
+</p>
+</blockquote>
+
+<p>
+That's the boring definition and I'd be hard-pressed to find someone who would want to wrap their entire codebase in narrative prose. Let's take about where Org really shines, README's for project configuration.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7d633eb" class="outline-3">
+<h3 id="org7d633eb"><span class="section-number-3">3.2</span> Literate README's</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+Many readmes include steps the developer has to take to get up and running. Lets take a look at the most common of these. How many times have you seen, clone the repo and run yarn&#x2026; Now imagine the following:
+</p>
+
+<p>
+Run the following command in shell by typing C-c C-c
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">yarn
+</pre>
+</div>
+
+<p>
+Notice that we also get output in the document.
+Othertimes README's may describe an API, or describe some endpoints. Forcing you elsewhere to actually test those endpoints.
+</p>
+
+<p>
+Lets take a look at the following:
+</p>
+
+<p>
+Press C-c C-c in the following block to execute the people API endpoint. Note the ID passed to 'people' that specifies which person (1, Luke Skywalker)
+</p>
+<div class="org-src-container">
+<pre class="src src-restclient" id="orgc572701"><span style="color: #0000FF;">GET</span> <span style="color: #006699;">https://swapi.co/api/people/1</span>
+</pre>
+</div>
+
+<p>
+Here the results of that fetch are piped in as a variable to the next block.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-js">console.log<span style="color: #707183;">(</span>JSON.parse<span style="color: #7388D6;">(</span>data.slice<span style="color: #909183;">(</span>data.indexOf<span style="color: #709870;">(</span><span style="color: #008000;">'{'</span><span style="color: #709870;">)</span>, data.lastIndexOf<span style="color: #709870;">(</span><span style="color: #008000;">'}'</span><span style="color: #709870;">)</span> + 1<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>.name<span style="color: #707183;">)</span>;
+</pre>
+</div>
+
+<p>
+The above block could be parsed in any babel-supported language, fed to any babel-supported language etc&#x2026;
+</p>
+</div>
+
+<div id="outline-container-orgf8c3c79" class="outline-4">
+<h4 id="orgf8c3c79"><span class="section-number-4">3.2.1</span> Languages of interest</h4>
+<div class="outline-text-4" id="text-3-2-1">
+</div>
+<ol class="org-ol">
+<li><a id="org6c305ea"></a>js - javascript<br /></li>
+<li><a id="org3857da5"></a>shell - your default shell<br /></li>
+<li><a id="org7aac146"></a>ob-mongo - execute mongo queries in a code block<br /></li>
+<li><a id="org3f9e30c"></a>ob-typescript<br /></li>
+<li><a id="org95ea038"></a>ob-sql-mode<br /></li>
+<li><a id="orgd845f68"></a>ob-browser - render html as images inline<br /></li>
+<li><a id="orgc046d15"></a>gnuplot (from above) can be used as a language instead, allowing insertable results<br />
+<div class="outline-text-5" id="text-3-2-1-7">
+<div class="org-src-container">
+<pre class="src src-gnuplot"><span style="color: #D0372D;">reset</span>
+
+<span style="color: #D0372D;">set</span> <span style="color: #6434A3;">title</span> "Putting it All Together"
+
+<span style="color: #D0372D;">set</span> xlabel "X"
+<span style="color: #D0372D;">set</span> xrange <span style="color: #707183;">[</span><span style="color: #D0372D;">-8:8</span><span style="color: #707183;">]</span>
+<span style="color: #D0372D;">set</span> xtics -8,2,8
+
+
+<span style="color: #D0372D;">set</span> ylabel "Y"
+<span style="color: #D0372D;">set</span> yrange <span style="color: #707183;">[</span><span style="color: #D0372D;">-20:70</span><span style="color: #707183;">]</span>
+<span style="color: #D0372D;">set</span> ytics -20,10,70
+
+<span style="color: #BA36A5;">f</span><span style="color: #707183;">(</span><span style="color: #BA36A5;">x</span><span style="color: #707183;">)</span><span style="color: #BA36A5;"> =</span> x**2
+<span style="color: #BA36A5;">g</span><span style="color: #707183;">(</span><span style="color: #BA36A5;">x</span><span style="color: #707183;">)</span><span style="color: #BA36A5;"> =</span> x**3
+<span style="color: #BA36A5;">h</span><span style="color: #707183;">(</span><span style="color: #BA36A5;">x</span><span style="color: #707183;">)</span><span style="color: #BA36A5;"> =</span> 10*<span style="color: #006699;">sqrt</span><span style="color: #707183;">(</span><span style="color: #006699;">abs</span><span style="color: #7388D6;">(</span>x<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+
+<span style="color: #0000FF;">plot</span> f<span style="color: #707183;">(</span>x<span style="color: #707183;">)</span> w lp <span style="color: #6434A3;">lw</span> 1, g<span style="color: #707183;">(</span>x<span style="color: #707183;">)</span> w p <span style="color: #6434A3;">lw</span> 2, h<span style="color: #707183;">(</span>x<span style="color: #707183;">)</span> w l <span style="color: #6434A3;">lw</span> 3
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org3c9036a"></a>artist mode - can be used if the src is meant to be ASCII for notetaking purposes<br />
+<div class="outline-text-5" id="text-3-2-1-8">
+<div class="org-src-container">
+<pre class="src src-artist">
+</pre>
+</div>
+
+<p>
+this doesnt need to be evaulated, ANY language is support re: display and 'mode' interactions
+</p>
+</div>
+</li>
+<li><a id="org5093b20"></a>plantuml mode - allows the creation of diagrams. the end result is both a nice visual representation and the ability to keep the document in question text-based.<br />
+<ol class="org-ol">
+<li><a id="org2ddaf1d"></a>Sequence Diagrams<br />
+<div class="outline-text-6" id="text-3-2-1-9-1">
+
+<div class="figure">
+<p><img src="org-images/puml1.png" alt="puml1.png" />
+</p>
+</div>
+</div>
+</li>
+
+<li><a id="org881c1ff"></a>Activity Diagrams<br />
+<div class="outline-text-6" id="text-3-2-1-9-2">
+
+<div class="figure">
+<p><img src="org-images/puml2.png" alt="puml2.png" />
+</p>
+</div>
+</div>
+</li>
+
+<li><a id="orgd08f70e"></a>Activity with Conditional<br />
+<div class="outline-text-6" id="text-3-2-1-9-3">
+
+<div class="figure">
+<p><img src="org-images/puml3.png" alt="puml3.png" />
+</p>
+</div>
+</div>
+</li>
+
+<li><a id="org1f329d7"></a>Use case diagram<br />
+<div class="outline-text-6" id="text-3-2-1-9-4">
+
+<div class="figure">
+<p><img src="org-images/puml4.png" alt="puml4.png" />
+</p>
+</div>
+</div>
+</li>
+</ol>
+</li>
+
+<li><a id="orga82b280"></a>ditaa<br />
+<div class="outline-text-5" id="text-3-2-1-10">
+
+<div class="figure">
+<p><img src="org-images/ditaa.png" alt="ditaa.png" />
+</p>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Julian Herrera</p>
+<p class="date">Created: 2018-07-25 Wed 22:35</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

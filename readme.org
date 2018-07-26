@@ -1,6 +1,7 @@
 #+TITLE: Org-Mode, Babel and Literate Programming
 #+AUTHOR: Julian Herrera
 #+EMAIL: julian.herrera@live.com
+#+HTML_HEAD: <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
 
 * Table of Contents                                                     :TOC:noexport:
 - [[#org-mode][Org-Mode]]
