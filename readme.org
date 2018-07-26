@@ -221,6 +221,25 @@ stop
 #+RESULTS:
 [[file:org-images/puml3.png]]
 
+***** Use case diagram
+#+BEGIN_SRC plantuml :file org-images/puml4.png
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+actor customer
+actor clerk
+rectangle checkout {
+  customer -- (checkout)
+  (checkout) .> (payment) : include
+  (help) .> (checkout) : extends
+  (checkout) -- clerk
+}
+@enduml
+#+END_SRC
+
+#+RESULTS:
+[[file:org-images/puml4.png]]
+
 **** ditaa
 
 #+BEGIN_SRC ditaa :file org-images/ditaa.png
