@@ -157,7 +157,7 @@ The above block could be parsed in any babel-supported language, fed to any babe
 **** ob-sql-mode
 **** ob-browser - render html as images inline
 **** gnuplot (from above) can be used as a language instead, allowing insertable results
-#+begin_src gnuplot :exports code :file org-images/gnuplot.png
+#+begin_src gnuplot :file org-images/gnuplot.png
 reset
 
 set title "Putting it All Together"
